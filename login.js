@@ -3,7 +3,7 @@ const mobileMenu = document.querySelector("aside");
 
 let menuOpen = false;
 
-// console.log(JSON.parse(localStorage.getItem("user")));
+// console.log(JSON.parse(localStorage.getItem("users")));
 
 mobileMB.addEventListener("click", () => {
   mobileMenu.classList.toggle("active");
@@ -29,29 +29,20 @@ registrationForm.addEventListener("submit", (event) => {
   }
 
   const email = registrationForm.email.value;
+  const password = registrationForm.password.value;
   const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-  const existingUser = storedUsers.find((user) => user.email === email);
+  const existingUser = storedUsers.find(
+    (user) => user.email === email && user.password === password
+  );
 
   if (existingUser) {
-    alert("უკვე არს");
-  } else {
-    const newUser = {
-      name: registrationForm.name.value,
-      surname: registrationForm.surname.value,
-      email: email,
-      password: registrationForm.password.value,
-    };
-
-    storedUsers.push(newUser);
-    localStorage.setItem("users", JSON.stringify(storedUsers));
     alert("რეგისტრაცია შესრულდა");
+    // Here you can redirect or perform any action after successful login
+  } else {
+    alert("ელ. ფოსტა ან პაროლი არასწორია");
   }
 });
 
 function gadayvana() {
   window.location.href = "http://127.0.0.1:5500/index.html";
-}
-
-function gadmoyvana() {
-  window.location.href = "http://127.0.0.1:5500/login.html";
 }
