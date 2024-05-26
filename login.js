@@ -1,9 +1,9 @@
 const mobileMB = document.getElementById("menu-btn");
 const mobileMenu = document.querySelector("aside");
+const mainBtn = document.querySelector(".main-btn");
+const loginForm = document.querySelector(".login_form");
 
 let menuOpen = false;
-
-// console.log(JSON.parse(localStorage.getItem("users")));
 
 mobileMB.addEventListener("click", () => {
   mobileMenu.classList.toggle("active");
@@ -14,6 +14,14 @@ mobileMB.addEventListener("click", () => {
   } else {
     mobileMB.src = "./close.png";
     menuOpen = true;
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (loggedInUser) {
+    mainBtn.textContent = loggedInUser.name;
+    document.querySelector(".hero_form").classList.add("hidden");
   }
 });
 
@@ -36,10 +44,17 @@ registrationForm.addEventListener("submit", (event) => {
   );
 
   if (existingUser) {
-    alert("რეგისტრაცია შესრულდა");
-    // Here you can redirect or perform any action after successful login
+    alert("შესვლა არს");
+    mainBtn.textContent = existingUser.name;
+    registrationForm.classList.add("hidden");
+    localStorage.setItem("loggedInUser", JSON.stringify(existingUser));
   } else {
-    alert("ელ. ფოსტა ან პაროლი არასწორია");
+    loginForm.email.classList.add("invalid");
+    loginForm.password.classList.add("invalid");
+    const errorElement = document.createElement("span");
+    errorElement.classList.add("error");
+    errorElement.innerText = "ელ. ფოსტა ან პაროლი არასწორია";
+    loginForm.password.parentElement.appendChild(errorElement);
   }
 });
 
